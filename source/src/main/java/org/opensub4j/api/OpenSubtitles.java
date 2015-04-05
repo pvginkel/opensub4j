@@ -91,27 +91,31 @@ public interface OpenSubtitles {
      *
      * @param lang ISO639-3 language code
      * @param file Movie file
+     * @param imdbId IMDB movie ID
+     * @param query Search query
      *
      * @return Information about found subtitles
      *
      * @throws org.apache.xmlrpc.XmlRpcException
      * @throws java.io.IOException
      */
-    public List<SubtitleInfo> searchSubtitles(String lang, File file) throws IOException, XmlRpcException;
+    public List<SubtitleInfo> searchSubtitles(String lang, File file, String imdbId, String query) throws IOException, XmlRpcException;
 
     /**
-     * Search for subtitle files matching your videos using IMDB ids. If {lang} is empty or contains the string 'all' -
-     * search is performed for all languages. Please note that some fields (IDSubMovieFile, MovieHash, MovieByteSize,
-     * MovieTimeMS) are missing in output when using this method.
+     * Search for subtitle files matching your videos using a movie file.
      *
-     * @param lang   ISO639-3 language code
+     * @param lang ISO639-3 language code
+     * @param fileSize Movie file size
+     * @param fileHash Movie file hash
      * @param imdbId IMDB movie ID
+     * @param query Search query
      *
      * @return Information about found subtitles
      *
-     * @throws XmlRpcException
+     * @throws org.apache.xmlrpc.XmlRpcException
+     * @throws java.io.IOException
      */
-    public List<SubtitleInfo> searchSubtitles(String lang, String imdbId) throws XmlRpcException;
+    public List<SubtitleInfo> searchSubtitles(String lang, long fileSize, String fileHash, String imdbId, String query) throws IOException, XmlRpcException;
 
     /**
      * Download given subtitle file

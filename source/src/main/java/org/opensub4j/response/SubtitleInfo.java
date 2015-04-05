@@ -26,8 +26,12 @@ public class SubtitleInfo {
     private final String osLink;
     private final String downloadLink;
     private final String zipDownloadLink;
+    private final String matchedBy;
+    private final float rating;
+    private final int cds;
+    private final String movieName;
 
-    public SubtitleInfo(int id, int subtitleFileId, String language, String fileName, String format, int downloadsNo, String osLink, String downloadLink, String zipDownloadLink) {
+    public SubtitleInfo(int id, int subtitleFileId, String language, String fileName, String format, int downloadsNo, String osLink, String downloadLink, String zipDownloadLink, String matchedBy, float rating, int cds, String movieName) {
         this.id = id;
         this.subtitleFileId = subtitleFileId;
         this.language = language;
@@ -37,6 +41,10 @@ public class SubtitleInfo {
         this.osLink = osLink;
         this.downloadLink = downloadLink;
         this.zipDownloadLink = zipDownloadLink;
+        this.matchedBy = matchedBy;
+        this.rating = rating;
+        this.cds = cds;
+        this.movieName = movieName;
     }
 
     public int getId() {
@@ -73,6 +81,22 @@ public class SubtitleInfo {
 
     public String getZipDownloadLink() {
         return zipDownloadLink;
+    }
+
+    public String getMatchedBy() {
+        return matchedBy;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public int getCds() {
+        return cds;
+    }
+
+    public String getMovieName() {
+        return movieName;
     }
 
     @Override

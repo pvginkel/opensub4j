@@ -98,31 +98,36 @@ public class OpenSubtitlesImpl implements OpenSubtitles {
     }
 
     @Override
-    public List<SubtitleInfo> searchSubtitles(String lang, File file) throws IOException, XmlRpcException {
-        ensureLoggedIn();
+    public List<SubtitleInfo> searchSubtitles(String lang, File file, String imdbId, String query) throws IOException, XmlRpcException {
+        String hash = null;
+        long size = 0;
 
-        String hash = FileHashCalculator.calculateHash(file);
-        long size = file.length();
+        if (file != null) {
+            hash = FileHashCalculator.calculateHash(file);
+            size = file.length();
+        }
 
-        Map<String, String> videoProperties = new HashMap<>();
-        videoProperties.put("sublanguageid", lang);
-        videoProperties.put("moviehash", hash);
-        videoProperties.put("moviebytesize", String.valueOf(size));
-
-        Object[] videoParams = {videoProperties};
-        Object[] params = {loginToken.getToken(), videoParams};
-        Object response = client.execute("SearchSubtitles", params);
-
-        return parser.parse(builderFactory.subtitleInfoListBuilder(parser), response);
+        return searchSubtitles(lang, size, hash, imdbId, query);
     }
 
     @Override
-    public List<SubtitleInfo> searchSubtitles(String lang, String imdbId) throws XmlRpcException {
+    public List<SubtitleInfo> searchSubtitles(String lang, long fileSize, String fileHash, String imdbId, String query) throws IOException, XmlRpcException {
         ensureLoggedIn();
 
         Map<String, String> videoProperties = new HashMap<>();
         videoProperties.put("sublanguageid", lang);
-        videoProperties.put("imdbid", imdbId);
+        if (fileHash != null) {
+            videoProperties.put("moviehash", fileHash);
+        }
+        if (fileSize > 0) {
+            videoProperties.put("moviebytesize", String.valueOf(fileSize));
+        }
+        if (imdbId != null) {
+            videoProperties.put("imdbid", imdbId);
+        }
+        if (query != null) {
+            videoProperties.put("query", query);
+        }
 
         Object[] videoParams = {videoProperties};
         Object[] params = {loginToken.getToken(), videoParams};
@@ -130,7 +135,6 @@ public class OpenSubtitlesImpl implements OpenSubtitles {
 
         return parser.parse(builderFactory.subtitleInfoListBuilder(parser), response);
     }
-
 
     @Override
     public List<SubtitleFile> downloadSubtitles(int subtitleFileID) throws XmlRpcException {

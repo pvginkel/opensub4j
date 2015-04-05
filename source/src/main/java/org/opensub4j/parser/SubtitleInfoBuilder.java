@@ -251,6 +251,9 @@ class SubtitleInfoBuilder implements ResponseObjectBuilder<SubtitleInfo> {
         int id = Integer.valueOf(IDSubtitle);
         int fileId = Integer.valueOf(IDSubtitleFile);
         int downloadsCount = Integer.valueOf(subDownloadsCnt);
-        return new SubtitleInfo(id, fileId, languageName, subFileName, subFormat, downloadsCount, subtitlesLink, subDownloadLink, zipDownloadLink);
+        float rating = Float.valueOf(subRating);
+        int cds = Integer.valueOf(this.subSumCD);
+
+        return new SubtitleInfo(id, fileId, languageName, subFileName, subFormat, downloadsCount, subtitlesLink, subDownloadLink, zipDownloadLink, matchedBy, rating, cds, movieName);
     }
 }
